@@ -36,7 +36,10 @@ class Boipa extends \Opencart\System\Engine\Controller {
 		if (!isset($this->session->data['order_id'])) {
 			$json['error'] = $this->language->get('error_order');
 		}
-		if (!isset($this->session->data['payment_method']) || $this->session->data['payment_method'] != self::PAYMENT_METHOD) {
+		if (version_compare(VERSION, '4.0.2.0', '<') && (!isset($this->session->data['payment_method']) || $this->session->data['payment_method'] != self::PAYMENT_METHOD)) {
+			$json['error'] = $this->language->get('error_payment_method');
+		}
+		if (version_compare(VERSION, '4.0.2.0', '>=') && (!isset($this->session->data['payment_method']['name']) || $this->session->data['payment_method']['name'] != $this->language->get('text_title'))) {
 			$json['error'] = $this->language->get('error_payment_method');
 		}
 		if (!$json) {

@@ -12,6 +12,25 @@ class Boipa extends \Opencart\System\Engine\Model {
 		);
 	    return $method_data;
 	}
+	
+	public function getMethods(array $address = array(), float $total = 0.0): bool|array {
+	    $this->load->language('extension/boipa/payment/boipa');
+		
+		$option_data['boipa'] = [
+			'code' => 'boipa.boipa',
+			'name' => $this->language->get('text_title')
+		];
+
+		$method_data = [
+			'code'       => 'boipa',
+			'name'       => $this->language->get('text_title'),
+			'option'     => $option_data,
+			'sort_order' => $this->config->get('payment_boipa_sort_order')
+		];
+		
+	    return $method_data;
+	}
+	
 	//insert the Payment data into the table when a transaction is created through the checkout page
 	public function addOrder($order_data) {
 	    
